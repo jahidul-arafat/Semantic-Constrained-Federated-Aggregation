@@ -33,9 +33,9 @@ const audioBtn = document.getElementById('toggleNarration');
 // ============================================
 const speechScripts = {
     0: {
-        text: `Welcome to the SCFA Interactive Research Story, presented by Jahidul Arafat, Presidential and Woltosz Graduate Research Fellow at Auburn University, and former Senior Solution Architect at Oracle and Principal System Analyst at bKash.
+        text: `Welcome to the SCFA Interactive Research Story, presented by Jahidul Arafat, NSF Presidential and Woltosz Graduate Research Fellow at Auburn University, and former Senior Solution Architect at Oracle and Principal System Analyst at bKash.
         
-        This presentation will guide you through the research on Semantic-Constrained Federated Aggregation. We achieved 22% faster convergence, 2.7 times better privacy-utility tradeoff, and discovered a critical 18% violation threshold.
+        This presentation will guide you through groundbreaking research on Semantic-Constrained Federated Aggregation. We achieved 22% faster convergence, 2.7 times better privacy-utility tradeoff, and discovered a critical 18% violation threshold.
         
         Enable narration for the full storytelling experience, then click Begin Presentation. Use arrow keys to navigate, and press R to resync audio with the current slide.`,
         highlights: []
@@ -94,7 +94,7 @@ const speechScripts = {
     },
 
     4: {
-        text: `I want to start by telling you a story about a problem that keeps manufacturing executives up at night.
+        text: `Here, I want to start by telling you a story about a problem that keeps manufacturing executives up at night.
         
         Imagine you're running five production facilities spread across the country. Each plant has thousands of sensors - measuring temperatures, vibrations, pressures, and electrical signals. In total, you're collecting data from 968 different sensors generating 1.18 million measurements.
         
@@ -605,7 +605,7 @@ const speechScripts = {
         
         We've made our complete implementation publicly available: 1.18 million samples, 750 megabytes of data, and 3,000 constraints - all available for research.
         
-        Thank you for your attention. I'm Jahidul Arafat, Presidential and Woltosz Graduate Research Fellow at Auburn University.
+        Thank you for your attention. I'm Jahidul Arafat, NSF Presidential and Woltosz Graduate Research Fellow at Auburn University.
         
         I'm happy to take questions.`,
         highlights: [
@@ -1472,82 +1472,101 @@ const defaultEdges = [
 
 function initKnowledgeGraph() {
     const container = document.getElementById('knowledgeGraph');
-    if (!container || typeof vis === 'undefined') return;
+    if (!container) {
+        console.error('Knowledge Graph container not found');
+        return;
+    }
+    if (typeof vis === 'undefined') {
+        console.error('vis.js library not loaded');
+        return;
+    }
     
-    // Create nodes DataSet
-    kgNodes = new vis.DataSet(defaultNodes.map(n => ({
-        ...n,
-        color: nodeColors[n.group],
-        font: { color: '#fff', size: 12, face: 'Segoe UI' },
-        shape: 'dot',
-        size: n.group === 'equipment' ? 25 : (n.group === 'constraint' ? 18 : 20),
-        borderWidth: 2,
-        shadow: true
-    })));
+    console.log('Creating Knowledge Graph in container:', container);
     
-    // Create edges DataSet
-    kgEdges = new vis.DataSet(defaultEdges.map((e, i) => ({
-        ...e,
-        id: i + 1,
-        color: edgeColors[e.edgeType],
-        font: { color: '#aaa', size: 10, strokeWidth: 0, align: 'middle' },
-        arrows: e.arrows || '',
-        dashes: e.dashes || false,
-        width: e.edgeType === 'causal' ? 2 : 1,
-        smooth: { type: 'curvedCW', roundness: 0.2 }
-    })));
-    
-    // Network options
-    const options = {
-        nodes: {
-            font: { color: '#ffffff' }
-        },
-        edges: {
-            font: { color: '#888888', size: 10 },
+    try {
+        // Create nodes DataSet
+        kgNodes = new vis.DataSet(defaultNodes.map(n => ({
+            ...n,
+            color: nodeColors[n.group],
+            font: { color: '#fff', size: 12, face: 'Segoe UI' },
+            shape: 'dot',
+            size: n.group === 'equipment' ? 25 : (n.group === 'constraint' ? 18 : 20),
+            borderWidth: 2,
+            shadow: true
+        })));
+        
+        // Create edges DataSet
+        kgEdges = new vis.DataSet(defaultEdges.map((e, i) => ({
+            ...e,
+            id: i + 1,
+            color: edgeColors[e.edgeType],
+            font: { color: '#aaa', size: 10, strokeWidth: 0, align: 'middle' },
+            arrows: e.arrows || '',
+            dashes: e.dashes || false,
+            width: e.edgeType === 'causal' ? 2 : 1,
             smooth: { type: 'curvedCW', roundness: 0.2 }
-        },
-        physics: {
-            enabled: true,
-            barnesHut: {
-                gravitationalConstant: -3000,
-                centralGravity: 0.3,
-                springLength: 120,
-                springConstant: 0.04,
-                damping: 0.09
+        })));
+        
+        // Network options
+        const options = {
+            nodes: {
+                font: { color: '#ffffff' }
             },
-            stabilization: { iterations: 150 }
-        },
-        interaction: {
-            hover: true,
-            tooltipDelay: 200,
-            navigationButtons: false,
-            keyboard: false
-        },
-        groups: {
-            equipment: { color: nodeColors.equipment },
-            sensor: { color: nodeColors.sensor },
-            process: { color: nodeColors.process },
-            failure: { color: nodeColors.failure },
-            prediction: { color: nodeColors.prediction },
-            constraint: { color: nodeColors.constraint },
-            custom: { color: nodeColors.custom }
-        }
-    };
-    
-    // Create network
-    kgNetwork = new vis.Network(container, { nodes: kgNodes, edges: kgEdges }, options);
-    
-    // Update stats
-    updateKGStats();
-    
-    // Event: Node click
-    kgNetwork.on('click', function(params) {
-        if (params.nodes.length > 0) {
-            const nodeId = params.nodes[0];
-            const node = kgNodes.get(nodeId);
-            console.log('Selected node:', node);
-        }
-    });
+            edges: {
+                font: { color: '#888888', size: 10 },
+                smooth: { type: 'curvedCW', roundness: 0.2 }
+            },
+            physics: {
+                enabled: true,
+                barnesHut: {
+                    gravitationalConstant: -3000,
+                    centralGravity: 0.3,
+                    springLength: 120,
+                    springConstant: 0.04,
+                    damping: 0.09
+                },
+                stabilization: { iterations: 150 }
+            },
+            interaction: {
+                hover: true,
+                tooltipDelay: 200,
+                navigationButtons: false,
+                keyboard: false
+            },
+            groups: {
+                equipment: { color: nodeColors.equipment },
+                sensor: { color: nodeColors.sensor },
+                process: { color: nodeColors.process },
+                failure: { color: nodeColors.failure },
+                prediction: { color: nodeColors.prediction },
+                constraint: { color: nodeColors.constraint },
+                custom: { color: nodeColors.custom }
+            }
+        };
+        
+        // Create network
+        kgNetwork = new vis.Network(container, { nodes: kgNodes, edges: kgEdges }, options);
+        console.log('Knowledge Graph network created successfully');
+        
+        // Update stats
+        updateKGStats();
+        
+        // Fit after stabilization
+        kgNetwork.once('stabilizationIterationsDone', function() {
+            kgNetwork.fit();
+        });
+        
+        // Event: Node click
+        kgNetwork.on('click', function(params) {
+            if (params.nodes.length > 0) {
+                const nodeId = params.nodes[0];
+                const node = kgNodes.get(nodeId);
+                console.log('Selected node:', node);
+            }
+        });
+    } catch (error) {
+        console.error('Error initializing Knowledge Graph:', error);
+    }
 }
 
 function showDefaultGraph() {
@@ -1740,7 +1759,16 @@ function loadSampleCustom() {
 }
 
 function fitGraph() {
-    if (kgNetwork) kgNetwork.fit({ animation: true });
+    if (kgNetwork) {
+        kgNetwork.fit({ animation: true });
+    } else {
+        // Try to initialize if not yet done
+        console.log('Graph not initialized, attempting initialization...');
+        initKnowledgeGraph();
+        setTimeout(() => {
+            if (kgNetwork) kgNetwork.fit({ animation: true });
+        }, 500);
+    }
 }
 
 function togglePhysics() {
@@ -1924,12 +1952,29 @@ function highlightPath(pathType) {
     }, 3000);
 }
 
-// Initialize KG when scene 6 becomes active
+// Initialize KG when scene 6 becomes active (data-scene="7" is at index 6)
 const originalAnimateScene = animateScene;
 animateScene = function(sceneIndex) {
     originalAnimateScene(sceneIndex);
-    if (sceneIndex === 6 && !kgNetwork) {
-        setTimeout(initKnowledgeGraph, 500);
+    // Initialize knowledge graph for scene 6 (index 6 = data-scene 7)
+    if (sceneIndex === 6) {
+        // Try multiple times in case vis.js hasn't loaded yet
+        const tryInit = (attempts) => {
+            if (attempts <= 0) return;
+            if (typeof vis !== 'undefined') {
+                if (!kgNetwork) {
+                    console.log('Initializing Knowledge Graph...');
+                    initKnowledgeGraph();
+                } else {
+                    // Network exists, just fit it
+                    kgNetwork.fit();
+                }
+            } else {
+                console.log('vis.js not loaded yet, retrying...');
+                setTimeout(() => tryInit(attempts - 1), 500);
+            }
+        };
+        setTimeout(() => tryInit(5), 300);
     }
 };
 
@@ -1950,6 +1995,7 @@ window.addCustomEdge = addCustomEdge;
 window.clearCustomGraph = clearCustomGraph;
 window.loadSampleCustom = loadSampleCustom;
 window.fitGraph = fitGraph;
+window.initKnowledgeGraph = initKnowledgeGraph;
 window.togglePhysics = togglePhysics;
 window.exportGraph = exportGraph;
 window.highlightPath = highlightPath;
