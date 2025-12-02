@@ -605,7 +605,7 @@ const speechScripts = {
         
         We've made our complete implementation publicly available: 1.18 million samples, 750 megabytes of data, and 3,000 constraints - all available for research.
         
-        Thank you for your attention. I'm Jahidul Arafat, NSF Presidential and Woltosz Graduate Research Fellow at Auburn University.
+        Thank you for your attention. I'm Jahidul Arafat, Presidential and Woltosz Graduate Research Fellow at Auburn University.
         
         I'm happy to take questions.`,
         highlights: [
