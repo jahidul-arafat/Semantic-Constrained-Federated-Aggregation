@@ -94,7 +94,7 @@ const speechScripts = {
     },
 
     4: {
-        text: `Good morning everyone. I want to start by telling you a story about a problem that keeps manufacturing executives up at night.
+        text: `I want to start by telling you a story about a problem that keeps manufacturing executives up at night.
         
         Imagine you're running five production facilities spread across the country. Each plant has thousands of sensors - measuring temperatures, vibrations, pressures, and electrical signals. In total, you're collecting data from 968 different sensors generating 1.18 million measurements.
         
