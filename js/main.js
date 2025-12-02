@@ -35,7 +35,7 @@ const speechScripts = {
     0: {
         text: `Welcome to the SCFA Interactive Research Story, presented by Jahidul Arafat, NSF Presidential and Woltosz Graduate Research Fellow at Auburn University, and former Senior Solution Architect at Oracle and Principal System Analyst at bKash.
         
-        This presentation will guide you through groundbreaking research on Semantic-Constrained Federated Aggregation. We achieved 22% faster convergence, 2.7 times better privacy-utility tradeoff, and discovered a critical 18% violation threshold.
+        This presentation will guide you through the research on Semantic-Constrained Federated Aggregation. We achieved 22% faster convergence, 2.7 times better privacy-utility tradeoff, and discovered a critical 18% violation threshold.
         
         Enable narration for the full storytelling experience, then click Begin Presentation. Use arrow keys to navigate, and press R to resync audio with the current slide.`,
         highlights: []
